@@ -8,20 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		1E90668C1CA2E37700A022F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90668B1CA2E37700A022F3 /* AppDelegate.swift */; };
-		1E90668E1CA2E37700A022F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90668D1CA2E37700A022F3 /* ViewController.swift */; };
 		1E9066911CA2E37700A022F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E90668F1CA2E37700A022F3 /* Main.storyboard */; };
 		1E9066931CA2E37800A022F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E9066921CA2E37800A022F3 /* Assets.xcassets */; };
 		1E9066961CA2E37800A022F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E9066941CA2E37800A022F3 /* LaunchScreen.storyboard */; };
+		1E90669E1CA2E3D300A022F3 /* QualyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90669D1CA2E3D300A022F3 /* QualyTableViewController.swift */; };
+		1E9066A01CA2E65500A022F3 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E90669F1CA2E65500A022F3 /* Data.swift */; };
+		1E9066A21CA2EABE00A022F3 /* TimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A11CA2EABE00A022F3 /* TimesViewController.swift */; };
+		1E9066A41CA553D000A022F3 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A31CA553D000A022F3 /* Driver.swift */; };
+		1E9066A61CA55ED800A022F3 /* DriverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A51CA55ED800A022F3 /* DriverTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1E9066881CA2E37700A022F3 /* Qualy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Qualy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E90668B1CA2E37700A022F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1E90668D1CA2E37700A022F3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1E9066901CA2E37700A022F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E9066921CA2E37800A022F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1E9066951CA2E37800A022F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E9066971CA2E37800A022F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E90669D1CA2E3D300A022F3 /* QualyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QualyTableViewController.swift; sourceTree = "<group>"; };
+		1E90669F1CA2E65500A022F3 /* Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		1E9066A11CA2EABE00A022F3 /* TimesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimesViewController.swift; sourceTree = "<group>"; };
+		1E9066A31CA553D000A022F3 /* Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
+		1E9066A51CA55ED800A022F3 /* DriverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,8 +63,12 @@
 			isa = PBXGroup;
 			children = (
 				1E90668B1CA2E37700A022F3 /* AppDelegate.swift */,
-				1E90668D1CA2E37700A022F3 /* ViewController.swift */,
 				1E90668F1CA2E37700A022F3 /* Main.storyboard */,
+				1E9066A51CA55ED800A022F3 /* DriverTableViewCell.swift */,
+				1E9066A11CA2EABE00A022F3 /* TimesViewController.swift */,
+				1E9066A31CA553D000A022F3 /* Driver.swift */,
+				1E90669D1CA2E3D300A022F3 /* QualyTableViewController.swift */,
+				1E90669F1CA2E65500A022F3 /* Data.swift */,
 				1E9066921CA2E37800A022F3 /* Assets.xcassets */,
 				1E9066941CA2E37800A022F3 /* LaunchScreen.storyboard */,
 				1E9066971CA2E37800A022F3 /* Info.plist */,
@@ -135,7 +147,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E90668E1CA2E37700A022F3 /* ViewController.swift in Sources */,
+				1E9066A41CA553D000A022F3 /* Driver.swift in Sources */,
+				1E9066A61CA55ED800A022F3 /* DriverTableViewCell.swift in Sources */,
+				1E90669E1CA2E3D300A022F3 /* QualyTableViewController.swift in Sources */,
+				1E9066A21CA2EABE00A022F3 /* TimesViewController.swift in Sources */,
+				1E9066A01CA2E65500A022F3 /* Data.swift in Sources */,
 				1E90668C1CA2E37700A022F3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
