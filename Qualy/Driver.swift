@@ -44,11 +44,12 @@ class Driver: NSObject{
         case Williams
         case RedBull
         case ForceIndia
-        case Lotus
+        case Renault
         case ToroRosso
         case Sauber
         case McLaren
         case Manor
+        case Haas
     }
     
     init(name: Name, team: Team, time: String) {
