@@ -39,7 +39,12 @@ class TimesViewController: UITableViewController {
 
     @IBAction func run(sender: AnyObject) {
         q3Times = []
+        q2Times = []
+        q1Times = []
         tableView.reloadData()
+        
+        let lastQ3Time = q3Differences.reverse()[0]
+        let lastQ2Time = q2Differences.reverse()[0]
         
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
@@ -51,6 +56,24 @@ class TimesViewController: UITableViewController {
                 let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
                 let error = time - difference
                 print(time, "\t", difference, "\t", error)
+            })
+        }
+        
+        for (index, time) in q2Differences.enumerate() {
+            RunAfterDelay(time + lastQ3Time + 1, block: {
+                self.q2Times.append(self.q2Backup[index])
+                //                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+                self.tableView.reloadData()
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 1), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            })
+        }
+        
+        for (index, time) in q1Differences.enumerate() {
+            RunAfterDelay(time + lastQ3Time + lastQ2Time + 2, block: {
+                self.q1Times.append(self.q1Backup[index])
+                //                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+                self.tableView.reloadData()
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 2), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             })
         }
         
