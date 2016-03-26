@@ -16,31 +16,33 @@ class QualyTableViewController: UITableViewController {
         GrandPrix(
             location: GrandPrix.Country.AUS,
             year: 2016,
-            results: [
-                Driver(name: Driver.Name.HAM, team: Driver.Team.Mercedes,   session: .Q3, time: "1.23.837"),
-                Driver(name: Driver.Name.ROS, team: Driver.Team.Mercedes,   session: .Q3, time: "1:24.197"),
-                Driver(name: Driver.Name.VET, team: Driver.Team.Ferrari,    session: .Q3, time: "1:24.675"),
-                Driver(name: Driver.Name.RAI, team: Driver.Team.Ferrari,    session: .Q3, time: "1:25.033"),
-                Driver(name: Driver.Name.VES, team: Driver.Team.ToroRosso,  session: .Q3, time: "1:25.434"),
-                Driver(name: Driver.Name.MAS, team: Driver.Team.Williams,   session: .Q3, time: "1:25.458"),
-                Driver(name: Driver.Name.SAI, team: Driver.Team.ToroRosso,  session: .Q3, time: "1:25.582"),
-                Driver(name: Driver.Name.RIC, team: Driver.Team.RedBull,    session: .Q3, time: "1:25.589"),
-                
-                Driver(name: Driver.Name.PER, team: Driver.Team.ForceIndia, session: .Q2, time: "1:25.753"),
-                Driver(name: Driver.Name.HUL, team: Driver.Team.ForceIndia, session: .Q2, time: "1:25.865"),
-                Driver(name: Driver.Name.BOT, team: Driver.Team.Williams,   session: .Q2, time: "1:25.961"),
-                Driver(name: Driver.Name.ALO, team: Driver.Team.McLaren,    session: .Q2, time: "1:26.125"),
-                Driver(name: Driver.Name.BUT, team: Driver.Team.McLaren,    session: .Q2, time: "1:26.304"),
-                Driver(name: Driver.Name.PAL, team: Driver.Team.Renault,    session: .Q2, time: "1.27:601"),
-                Driver(name: Driver.Name.MAG, team: Driver.Team.Renault,    session: .Q2, time: "1:27.742"),
-                
-                Driver(name: Driver.Name.ERI, team: Driver.Team.Sauber,     session: .Q1, time: "1:27.435"),
-                Driver(name: Driver.Name.NAS, team: Driver.Team.Sauber,     session: .Q1, time: "1:27.958"),
-                Driver(name: Driver.Name.KVY, team: Driver.Team.RedBull,    session: .Q1, time: "1:28.006"),
-                Driver(name: Driver.Name.GRO, team: Driver.Team.Haas,       session: .Q1, time: "1:28.322"),
-                Driver(name: Driver.Name.GUT, team: Driver.Team.Haas,       session: .Q1, time: "1:29.606"),
-                Driver(name: Driver.Name.HAR, team: Driver.Team.Manor,      session: .Q1, time: "1:29.627"),
-                Driver(name: Driver.Name.WEH, team: Driver.Team.Manor,      session: .Q1, time: "1:29.642")
+            q3: [
+                Driver(name: Driver.Name.HAM, team: Driver.Team.Mercedes,   time: "1.23.837"),
+                Driver(name: Driver.Name.ROS, team: Driver.Team.Mercedes,   time: "1:24.197"),
+                Driver(name: Driver.Name.VET, team: Driver.Team.Ferrari,    time: "1:24.675"),
+                Driver(name: Driver.Name.RAI, team: Driver.Team.Ferrari,    time: "1:25.033"),
+                Driver(name: Driver.Name.VES, team: Driver.Team.ToroRosso,  time: "1:25.434"),
+                Driver(name: Driver.Name.MAS, team: Driver.Team.Williams,   time: "1:25.458"),
+                Driver(name: Driver.Name.SAI, team: Driver.Team.ToroRosso,  time: "1:25.582"),
+                Driver(name: Driver.Name.RIC, team: Driver.Team.RedBull,    time: "1:25.589")
+            ],
+            q2: [
+                Driver(name: Driver.Name.PER, team: Driver.Team.ForceIndia, time: "1:25.753"),
+                Driver(name: Driver.Name.HUL, team: Driver.Team.ForceIndia, time: "1:25.865"),
+                Driver(name: Driver.Name.BOT, team: Driver.Team.Williams,   time: "1:25.961"),
+                Driver(name: Driver.Name.ALO, team: Driver.Team.McLaren,    time: "1:26.125"),
+                Driver(name: Driver.Name.BUT, team: Driver.Team.McLaren,    time: "1:26.304"),
+                Driver(name: Driver.Name.PAL, team: Driver.Team.Renault,    time: "1.27:601"),
+                Driver(name: Driver.Name.MAG, team: Driver.Team.Renault,    time: "1:27.742")
+            ],
+            q1: [
+                Driver(name: Driver.Name.ERI, team: Driver.Team.Sauber,     time: "1:27.435"),
+                Driver(name: Driver.Name.NAS, team: Driver.Team.Sauber,     time: "1:27.958"),
+                Driver(name: Driver.Name.KVY, team: Driver.Team.RedBull,    time: "1:28.006"),
+                Driver(name: Driver.Name.GRO, team: Driver.Team.Haas,       time: "1:28.322"),
+                Driver(name: Driver.Name.GUT, team: Driver.Team.Haas,       time: "1:29.606"),
+                Driver(name: Driver.Name.HAR, team: Driver.Team.Manor,      time: "1:29.627"),
+                Driver(name: Driver.Name.WEH, team: Driver.Team.Manor,      time: "1:29.642")
             ])
     ]
 
@@ -129,6 +131,8 @@ class QualyTableViewController: UITableViewController {
         destination.title = grandPrix.title
         
         destination.grandPrix = grandPrix
+        
+        
         
     }
 

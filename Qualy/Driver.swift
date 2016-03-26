@@ -11,8 +11,8 @@ import UIKit
 class Driver: NSObject{
     let name: Name
     let team: Team
-    let session: Session
     let time: String
+    let timeInSeconds: Double
     var gap: Double? = nil
     
     enum Name {
@@ -54,17 +54,39 @@ class Driver: NSObject{
         case Haas
     }
     
-    enum Session {
-        case Q1
-        case Q2
-        case Q3
+    enum TimeError: ErrorType {
+        case ArrayWrongSize
+        case CantConvertMinuteToInt
+        case CantConvertSecondsMillisToInt
+        case CantConvertMinuteToDouble
+        case CantConvertSecondsMillisToDouble
     }
     
-    init(name: Name, team: Team, session: Session, time: String) {
+    init(name: Name, team: Team, time: String) {
         self.name = name
         self.team = team
-        self.session = session
         self.time = time
+        self.timeInSeconds = {
+            do {
+                let timeComponents = time.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
+                
+                guard timeComponents.count == 3 else { throw TimeError.ArrayWrongSize }
+                
+                guard let minute = Double(timeComponents[0]) else { throw TimeError.CantConvertMinuteToDouble }
+                
+                let minutesAsMillis = minute * 60_000.0
+                
+                let secondsMilliString = timeComponents[1] + timeComponents[2]
+                
+                guard let secondsMilliInt = Double(secondsMilliString) else { throw TimeError.CantConvertSecondsMillisToDouble }
+                
+                let total = minutesAsMillis + secondsMilliInt
+                
+                return total
+            } catch let error {
+                fatalError(String(error))
+            }
+            }()
     }
 
 }

@@ -28,14 +28,6 @@ class TimesViewController: UITableViewController {
     var q1Times: [Driver]!
     var q1DoubleTimes: [Double]!
     var q1Differences: [Double]!
-    
-    enum TimeError: ErrorType {
-        case ArrayWrongSize
-        case CantConvertMinuteToInt
-        case CantConvertSecondsMillisToInt
-        case CantConvertMinuteToDouble
-        case CantConvertSecondsMillisToDouble
-    }
 
     @IBAction func run(sender: AnyObject) {
         q3Times = []
@@ -94,42 +86,24 @@ class TimesViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        q3Backup = grandPrix.results.filter({$0.session == Driver.Session.Q3})
-        q3Times = q3Backup
+        q3Backup = grandPrix.q3
+        q3Times = grandPrix.q3
         
-        q2Backup = grandPrix.results.filter({$0.session == Driver.Session.Q2})
-        q2Times = q2Backup
+        q2Backup = grandPrix.q2
+        q2Times = grandPrix.q2
         
-        q1Backup = grandPrix.results.filter({$0.session == Driver.Session.Q1})
-        q1Times = q1Backup
+        q1Backup = grandPrix.q1
+        q1Times = grandPrix.q1
         
-        q3DoubleTimes = q3Times.map({ (input) -> Double in
-            do {
-                return try timeStringToDouble(input.time)
-            } catch let error {
-                fatalError(String(error))
-            }
-        })
+        q3DoubleTimes = q3Times.map({$0.timeInSeconds})
         
         q3Differences = q3DoubleTimes.map({($0 - q3DoubleTimes[0]) / 1000})
         
-        q2DoubleTimes = q2Times.map({ (input) -> Double in
-            do {
-                return try timeStringToDouble(input.time)
-            } catch let error {
-                fatalError(String(error))
-            }
-        })
+        q2DoubleTimes = q2Times.map({$0.timeInSeconds})
         
         q2Differences = q2DoubleTimes.map({($0 - q2DoubleTimes[0]) / 1000})
         
-        q1DoubleTimes = q1Times.map({ (input) -> Double in
-            do {
-                return try timeStringToDouble(input.time)
-            } catch let error {
-                fatalError(String(error))
-            }
-        })
+        q1DoubleTimes = q1Times.map({$0.timeInSeconds})
         
         q1Differences = q1DoubleTimes.map({($0 - q1DoubleTimes[0]) / 1000})
     }
@@ -256,24 +230,6 @@ class TimesViewController: UITableViewController {
         return true
     }
     */
-    
-    func timeStringToDouble(time: String) throws -> Double {
-        let timeComponents = time.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
-        
-        guard timeComponents.count == 3 else { throw TimeError.ArrayWrongSize }
-        
-        guard let minute = Double(timeComponents[0]) else { throw TimeError.CantConvertMinuteToDouble }
-        
-        let minutesAsMillis = minute * 60_000.0
-        
-        let secondsMilliString = timeComponents[1] + timeComponents[2]
-        
-        guard let secondsMilliInt = Double(secondsMilliString) else { throw TimeError.CantConvertSecondsMillisToDouble }
-        
-        let total = minutesAsMillis + secondsMilliInt
-        
-        return total
-    }
 
     /*
     // MARK: - Navigation
