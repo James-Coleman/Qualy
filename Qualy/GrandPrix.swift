@@ -12,23 +12,22 @@ class GrandPrix: NSObject {
     
     let location: Country
     let year: Int
+    let title: String
     
     let q3: [Driver]
-//    let q3FirstTime: Double
-//    let q3Differences: [Double]
     let q2: [Driver]
-//    let q2FirstTime: Double
-//    let q2Differences: [Double]
     let q1: [Driver]
-//    let q1FirstTime: Double
-//    let q1Differences: [Double]
     
     init(location: Country, year: Int, q3: [Driver], q2: [Driver], q1: [Driver]) {
+        
         self.location = location
         self.year = year
+        self.title = "\(location) \(year)"
+        
         self.q3 = q3
         self.q2 = q2
         self.q1 = q1
+ 
     }
     
     enum Country {
@@ -54,5 +53,5 @@ class GrandPrix: NSObject {
         case BRA
         case ABU
     }
-
+    
 }

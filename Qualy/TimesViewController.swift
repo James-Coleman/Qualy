@@ -14,20 +14,20 @@ class TimesViewController: UITableViewController {
     
     var q3Backup: [Driver]! // Shouldn't it be possible to make this a let
     var q3Times: [Driver]!
+    var q3DoubleTimes: [Double]!
     var q3Differences: [Double]!
-    var q3FirstTime: Double?
     
     var q2Backup: [Driver]!
     var q2Times: [Driver]!
+    var q2DoubleTimes: [Double]!
     var q2Differences: [Double]!
-    var q2FirstTime: Double?
     
     var q1Backup: [Driver]!
     var q1Times: [Driver]!
+    var q1DoubleTimes: [Double]!
     var q1Differences: [Double]!
-    var q1FirstTime: Double?
     
-    enum StringToMilliError: ErrorType {
+    enum TimeError: ErrorType {
         case ArrayWrongSize
         case CantConvertMinuteToInt
         case CantConvertSecondsMillisToInt
@@ -39,13 +39,20 @@ class TimesViewController: UITableViewController {
         q3Times = []
         tableView.reloadData()
         
+        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        
         for (index, time) in q3Differences.enumerate() {
             RunAfterDelay(time, block: {
                 self.q3Times.append(self.q3Backup[index])
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
 //                self.tableView.reloadData()
+                let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
+                let error = time - difference
+                print(time, "\t", difference, "\t", error)
             })
         }
+        
+        print("\n")
     }
     
     func RunAfterDelay(delay: NSTimeInterval, block: dispatch_block_t) {
@@ -62,29 +69,35 @@ class TimesViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        q3Differences = q3Times.map({ (input) -> Double in
+        q3DoubleTimes = q3Times.map({ (input) -> Double in
             do {
-                return try calculateDifference(input.time)
+                return try timeStringToDouble(input.time)
             } catch let error {
                 fatalError(String(error))
             }
         })
         
-        q2Differences = q2Times.map({ (input) -> Double in
+        q3Differences = q3DoubleTimes.map({($0 - q3DoubleTimes[0]) / 1000})
+        
+        q2DoubleTimes = q2Times.map({ (input) -> Double in
             do {
-                return try calculateDifference(input.time)
+                return try timeStringToDouble(input.time)
             } catch let error {
                 fatalError(String(error))
             }
         })
         
-        q1Differences = q1Times.map({ (input) -> Double in
+        q2Differences = q2DoubleTimes.map({($0 - q2DoubleTimes[0]) / 1000})
+        
+        q1DoubleTimes = q1Times.map({ (input) -> Double in
             do {
-                return try calculateDifference(input.time)
+                return try timeStringToDouble(input.time)
             } catch let error {
                 fatalError(String(error))
             }
         })
+        
+        q1Differences = q1DoubleTimes.map({($0 - q1DoubleTimes[0]) / 1000})
     }
 
     override func didReceiveMemoryWarning() {
@@ -210,30 +223,22 @@ class TimesViewController: UITableViewController {
     }
     */
     
-    func calculateDifference(input: String) throws -> Double {
-        let array = input.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
+    func timeStringToDouble(time: String) throws -> Double {
+        let timeComponents = time.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
         
-        guard array.count == 3 else { throw StringToMilliError.ArrayWrongSize }
+        guard timeComponents.count == 3 else { throw TimeError.ArrayWrongSize }
         
-        guard let minute = Double(array[0]) else { throw StringToMilliError.CantConvertMinuteToDouble }
+        guard let minute = Double(timeComponents[0]) else { throw TimeError.CantConvertMinuteToDouble }
         
         let minutesAsMillis = minute * 60_000.0
         
-        let secondsMilliString = array[1] + array[2]
+        let secondsMilliString = timeComponents[1] + timeComponents[2]
         
-        guard let secondsMilliInt = Double(secondsMilliString) else { throw StringToMilliError.CantConvertSecondsMillisToDouble }
+        guard let secondsMilliInt = Double(secondsMilliString) else { throw TimeError.CantConvertSecondsMillisToDouble }
         
         let total = minutesAsMillis + secondsMilliInt
         
-        if let firstTimeDouble = q3FirstTime {
-            let difference = total - firstTimeDouble
-            let secondsDifference = difference / 1_000
-            return secondsDifference
-        } else {
-            q3FirstTime = total
-        }
-        
-        return 0.0
+        return total
     }
 
     /*
