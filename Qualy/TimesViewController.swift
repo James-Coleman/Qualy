@@ -12,22 +12,20 @@ class TimesViewController: UITableViewController {
     
     var sectionHeadings = ["Q3", "Q2", "Q1"]
     
-    var q3Backup: [Driver] = []
-    
-    var q3Times = [
-        Driver(name: Driver.Name.HAM, team: Driver.Team.Mercedes, time: "1.23.837"),
-        Driver(name: Driver.Name.ROS, team: Driver.Team.Mercedes, time: "1:24.197"),
-        Driver(name: Driver.Name.VET, team: Driver.Team.Ferrari, time: "1:24.675"),
-        Driver(name: Driver.Name.RAI, team: Driver.Team.Ferrari, time: "1:25.033"),
-        Driver(name: Driver.Name.VES, team: Driver.Team.ToroRosso, time: "1:25.434"),
-        Driver(name: Driver.Name.MAS, team: Driver.Team.Williams, time: "1:25.458"),
-        Driver(name: Driver.Name.SAI, team: Driver.Team.ToroRosso, time: "1:25.582"),
-        Driver(name: Driver.Name.RIC, team: Driver.Team.RedBull, time: "1:25.589")
-    ]
-    
+    var q3Backup: [Driver]! // Shouldn't it be possible to make this a let
+    var q3Times: [Driver]!
     var q3Differences: [Double]!
+    var q3FirstTime: Double?
     
-    var firstTimeDouble: Double?
+    var q2Backup: [Driver]!
+    var q2Times: [Driver]!
+    var q2Differences: [Double]!
+    var q2FirstTime: Double?
+    
+    var q1Backup: [Driver]!
+    var q1Times: [Driver]!
+    var q1Differences: [Double]!
+    var q1FirstTime: Double?
     
     enum StringToMilliError: ErrorType {
         case ArrayWrongSize
@@ -64,15 +62,29 @@ class TimesViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        q3Backup = q3Times
-        
-        q3Differences = q3Times.map { (input) -> Double in
+        q3Differences = q3Times.map({ (input) -> Double in
             do {
-                return try stringToDoubleDifference(input.time)
+                return try calculateDifference(input.time)
             } catch let error {
                 fatalError(String(error))
             }
-        }
+        })
+        
+        q2Differences = q2Times.map({ (input) -> Double in
+            do {
+                return try calculateDifference(input.time)
+            } catch let error {
+                fatalError(String(error))
+            }
+        })
+        
+        q1Differences = q1Times.map({ (input) -> Double in
+            do {
+                return try calculateDifference(input.time)
+            } catch let error {
+                fatalError(String(error))
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,7 +95,7 @@ class TimesViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return sectionHeadings.count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -94,6 +106,10 @@ class TimesViewController: UITableViewController {
         switch section {
         case 0:
             return q3Times.count
+        case 1:
+            return q2Times.count
+        case 2:
+            return q1Times.count
         default:
             return 0
         }
@@ -103,7 +119,17 @@ class TimesViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! DriverTableViewCell
         
-        let driver = q3Times[indexPath.row]
+        let driver: Driver! = { switch indexPath.section {
+        case 0:
+            return q3Times[indexPath.row]
+        case 1:
+            return q2Times[indexPath.row]
+        case 2:
+            return q1Times[indexPath.row]
+        default:
+            return nil
+            }
+        }()
         
         cell.teamColour.backgroundColor = { switch driver.team {
         case .Mercedes:
@@ -116,7 +142,7 @@ class TimesViewController: UITableViewController {
             return UIColor.purpleColor()
         case .ForceIndia:
             return UIColor.orangeColor()
-        case .Lotus:
+        case .Renault:
             return UIColor.yellowColor()
         case .ToroRosso:
             return UIColor.blueColor()
@@ -126,12 +152,25 @@ class TimesViewController: UITableViewController {
             return UIColor.grayColor()
         case .Manor:
             return UIColor.magentaColor()
+        case .Haas:
+            return UIColor.lightGrayColor()
             }
             }()
         
         cell.driverName.text = String(driver.name)
         cell.time.text = String(driver.time)
-        cell.distanceToPole.text = "+ \(q3Differences[indexPath.row])"
+        
+        cell.distanceToPole.text = { switch indexPath.section {
+        case 0:
+            return "+ \(q3Differences[indexPath.row])"
+        case 1:
+            return "+ \(q2Differences[indexPath.row])"
+        case 2:
+            return "+ \(q1Differences[indexPath.row])"
+        default:
+            return nil
+            }
+            }()
         
         return cell
     }
@@ -171,7 +210,7 @@ class TimesViewController: UITableViewController {
     }
     */
     
-    func stringToDoubleDifference(input: String) throws -> Double {
+    func calculateDifference(input: String) throws -> Double {
         let array = input.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
         
         guard array.count == 3 else { throw StringToMilliError.ArrayWrongSize }
@@ -186,12 +225,12 @@ class TimesViewController: UITableViewController {
         
         let total = minutesAsMillis + secondsMilliInt
         
-        if let firstTimeDouble = firstTimeDouble {
+        if let firstTimeDouble = q3FirstTime {
             let difference = total - firstTimeDouble
             let secondsDifference = difference / 1_000
             return secondsDifference
         } else {
-            firstTimeDouble = total
+            q3FirstTime = total
         }
         
         return 0.0

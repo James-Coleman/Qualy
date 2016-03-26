@@ -16,8 +16,7 @@
 		1E9066A21CA2EABE00A022F3 /* TimesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A11CA2EABE00A022F3 /* TimesViewController.swift */; };
 		1E9066A41CA553D000A022F3 /* Driver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A31CA553D000A022F3 /* Driver.swift */; };
 		1E9066A61CA55ED800A022F3 /* DriverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A51CA55ED800A022F3 /* DriverTableViewCell.swift */; };
-		1E9066A81CA5821800A022F3 /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A71CA5821800A022F3 /* Results.swift */; };
-		1E9066AA1CA5859500A022F3 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A91CA5859500A022F3 /* Session.swift */; };
+		1E9066AA1CA5859500A022F3 /* GrandPrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E9066A91CA5859500A022F3 /* GrandPrix.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +31,7 @@
 		1E9066A11CA2EABE00A022F3 /* TimesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimesViewController.swift; sourceTree = "<group>"; };
 		1E9066A31CA553D000A022F3 /* Driver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Driver.swift; sourceTree = "<group>"; };
 		1E9066A51CA55ED800A022F3 /* DriverTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriverTableViewCell.swift; sourceTree = "<group>"; };
-		1E9066A71CA5821800A022F3 /* Results.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
-		1E9066A91CA5859500A022F3 /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		1E9066A91CA5859500A022F3 /* GrandPrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrandPrix.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +69,7 @@
 				1E9066A51CA55ED800A022F3 /* DriverTableViewCell.swift */,
 				1E9066A11CA2EABE00A022F3 /* TimesViewController.swift */,
 				1E9066A31CA553D000A022F3 /* Driver.swift */,
-				1E9066A71CA5821800A022F3 /* Results.swift */,
-				1E9066A91CA5859500A022F3 /* Session.swift */,
+				1E9066A91CA5859500A022F3 /* GrandPrix.swift */,
 				1E90669D1CA2E3D300A022F3 /* QualyTableViewController.swift */,
 				1E90669F1CA2E65500A022F3 /* Data.swift */,
 				1E9066921CA2E37800A022F3 /* Assets.xcassets */,
@@ -156,8 +153,7 @@
 				1E9066A41CA553D000A022F3 /* Driver.swift in Sources */,
 				1E9066A61CA55ED800A022F3 /* DriverTableViewCell.swift in Sources */,
 				1E90669E1CA2E3D300A022F3 /* QualyTableViewController.swift in Sources */,
-				1E9066A81CA5821800A022F3 /* Results.swift in Sources */,
-				1E9066AA1CA5859500A022F3 /* Session.swift in Sources */,
+				1E9066AA1CA5859500A022F3 /* GrandPrix.swift in Sources */,
 				1E9066A21CA2EABE00A022F3 /* TimesViewController.swift in Sources */,
 				1E9066A01CA2E65500A022F3 /* Data.swift in Sources */,
 				1E90668C1CA2E37700A022F3 /* AppDelegate.swift in Sources */,
