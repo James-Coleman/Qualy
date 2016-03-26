@@ -14,19 +14,15 @@ class GrandPrix: NSObject {
     let year: Int
     let title: String
     
-    let q3: [Driver]
-    let q2: [Driver]
-    let q1: [Driver]
+    let results: [Driver]
     
-    init(location: Country, year: Int, q3: [Driver], q2: [Driver], q1: [Driver]) {
+    init(location: Country, year: Int, results: [Driver]) {
         
         self.location = location
         self.year = year
         self.title = "\(location) \(year)"
         
-        self.q3 = q3
-        self.q2 = q2
-        self.q1 = q1
+        self.results = results
  
     }
     

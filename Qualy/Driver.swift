@@ -11,7 +11,9 @@ import UIKit
 class Driver: NSObject{
     let name: Name
     let team: Team
+    let session: Session
     let time: String
+    var gap: Double? = nil
     
     enum Name {
         case HAM
@@ -52,9 +54,16 @@ class Driver: NSObject{
         case Haas
     }
     
-    init(name: Name, team: Team, time: String) {
+    enum Session {
+        case Q1
+        case Q2
+        case Q3
+    }
+    
+    init(name: Name, team: Team, session: Session, time: String) {
         self.name = name
         self.team = team
+        self.session = session
         self.time = time
     }
 

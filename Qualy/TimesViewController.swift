@@ -12,6 +12,8 @@ class TimesViewController: UITableViewController {
     
     var sectionHeadings = ["Q3", "Q2", "Q1"]
     
+    var grandPrix: GrandPrix!
+    
     var q3Backup: [Driver]! // Shouldn't it be possible to make this a let
     var q3Times: [Driver]!
     var q3DoubleTimes: [Double]!
@@ -44,8 +46,8 @@ class TimesViewController: UITableViewController {
         for (index, time) in q3Differences.enumerate() {
             RunAfterDelay(time, block: {
                 self.q3Times.append(self.q3Backup[index])
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
-//                self.tableView.reloadData()
+//                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+                self.tableView.reloadData()
                 let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
                 let error = time - difference
                 print(time, "\t", difference, "\t", error)
@@ -68,6 +70,15 @@ class TimesViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        q3Backup = grandPrix.results.filter({$0.session == Driver.Session.Q3})
+        q3Times = q3Backup
+        
+        q2Backup = grandPrix.results.filter({$0.session == Driver.Session.Q2})
+        q2Times = q2Backup
+        
+        q1Backup = grandPrix.results.filter({$0.session == Driver.Session.Q1})
+        q1Times = q1Backup
         
         q3DoubleTimes = q3Times.map({ (input) -> Double in
             do {
