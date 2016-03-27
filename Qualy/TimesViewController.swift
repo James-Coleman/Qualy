@@ -172,31 +172,7 @@ class TimesViewController: UITableViewController {
             }
         }()
         
-        cell.teamColour.backgroundColor = { switch driver.team {
-        case .Mercedes:
-            return UIColor.greenColor()
-        case .Ferrari:
-            return UIColor.redColor()
-        case .Williams:
-            return UIColor.whiteColor()
-        case .RedBull:
-            return UIColor.purpleColor()
-        case .ForceIndia:
-            return UIColor.orangeColor()
-        case .Renault:
-            return UIColor.yellowColor()
-        case .ToroRosso:
-            return UIColor.blueColor()
-        case .Sauber:
-            return UIColor.cyanColor()
-        case .McLaren:
-            return UIColor.grayColor()
-        case .Manor:
-            return UIColor.magentaColor()
-        case .Haas:
-            return UIColor.lightGrayColor()
-            }
-            }()
+        cell.teamColour.backgroundColor = driver.teamColor
         
         cell.driverName.text = String(driver.name)
         cell.time.text = String(driver.time)
