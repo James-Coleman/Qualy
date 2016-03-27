@@ -29,6 +29,9 @@ class TimesViewController: UITableViewController {
     var q1DoubleTimes: [Double]!
     var q1Differences: [Double]!
     
+    var qualyBackups: [[Driver]]!
+    var qualyTimes: [[Driver]]!
+    
     var closureArray: [() -> Void] = []
     
     var currentTime = NSDate.timeIntervalSinceReferenceDate()
@@ -44,8 +47,6 @@ class TimesViewController: UITableViewController {
         
         currentTime = NSDate.timeIntervalSinceReferenceDate()
         
-        var timerArray = [NSTimer]()
-        
         for (index, time) in q3Differences.enumerate() {
             
             closureArray.append( {
@@ -57,66 +58,39 @@ class TimesViewController: UITableViewController {
                 print(time, "\t", difference, "\t", error, "\t", self.currentTime)
             })
             
-//            timerArray.append(NSTimer(timeInterval: time, target: self, selector: #selector(runBlock), userInfo: nil, repeats: true))
-            
             NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index, repeats: false)
-            
-//            RunAfterDelay(time, block: {
-//                self.q3Times.append(self.q3Backup[index])
-////                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
-//                self.tableView.reloadData()
-//                let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
-//                let error = time - difference
-//                print(time, "\t", difference, "\t", error)
-//            })
         }
         
-//        for (index, time) in q2Differences.enumerate() {
-//            RunAfterDelay(time + lastQ3Time + 1, block: {
-//                self.q2Times.append(self.q2Backup[index])
-//                //                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+        for (index, time) in q2Differences.enumerate() {
+            closureArray.append({
+                self.q2Times.append(self.q2Backup[index])
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 1)], withRowAnimation: .Right)
 //                self.tableView.reloadData()
-//                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 1), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-//            })
-//        }
-//        
-//        for (index, time) in q1Differences.enumerate() {
-//            RunAfterDelay(time + lastQ3Time + lastQ2Time + 2, block: {
-//                self.q1Times.append(self.q1Backup[index])
-//                //                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 1), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            })
+            
+            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index + (q3Backup.count - 1), repeats: false)
+        }
+
+        for (index, time) in q1Differences.enumerate() {
+            closureArray.append( {
+                self.q1Times.append(self.q1Backup[index])
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 2)], withRowAnimation: .Right)
 //                self.tableView.reloadData()
-//                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 2), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-//            })
-//        }
+                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 2), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+            })
+            
+            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index + (q3Backup.count - 1) + (q2Backup.count - 1), repeats: false)
+        }
         
         
         print("\n")
     }
     
-//    func RunAfterDelay(delay: NSTimeInterval, block: dispatch_block_t) {
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue(), block)
-//    }
-    
     func runBlock(timer: NSTimer) {
         let userInfoIndex = timer.userInfo as! Int
         closureArray[userInfoIndex]()
-//        block()
-//        print(NSDate.timeIntervalSinceReferenceDate())
     }
-
-    func RunAfterDelay(delay: Double, block: () -> Void) {
-        let displayLink = CADisplayLink(target: self, selector: #selector(runBlock))
-        displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
-    }
-    
-//    func RunAfterDelay(delay: Double, block: () -> Void) {
-//        self.block = block
-//        let timer = NSTimer(timeInterval: delay, target: self, selector: #selector(runBlock), userInfo: nil, repeats: true)
-//        print(timer.timeInterval)
-//        timer.fire()
-//        timer.invalidate()
-//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +109,9 @@ class TimesViewController: UITableViewController {
         
         q1Backup = grandPrix.q1
         q1Times = grandPrix.q1
+        
+        qualyBackups = [q3Backup, q2Backup, q1Backup]
+        qualyTimes = [q3Times, q2Times, q1Times]
         
         q3DoubleTimes = q3Times.map({$0.timeInSeconds})
         
