@@ -37,6 +37,7 @@ class TimesViewController: UITableViewController {
     var currentTime = NSDate.timeIntervalSinceReferenceDate()
 
     @IBAction func run(sender: AnyObject) {
+        
         q3Times = []
         q2Times = []
         q1Times = []
@@ -58,7 +59,7 @@ class TimesViewController: UITableViewController {
                 print(time, "\t", difference, "\t", error, "\t", self.currentTime)
             })
             
-            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runClosure), userInfo: index, repeats: false)
         }
         
         for (index, time) in q2Differences.enumerate() {
@@ -69,7 +70,7 @@ class TimesViewController: UITableViewController {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 1), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             })
             
-            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index + (q3Backup.count - 1), repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(time + lastQ3Time + 1, target: self, selector: #selector(runClosure), userInfo: index + q3Backup.count, repeats: false)
         }
 
         for (index, time) in q1Differences.enumerate() {
@@ -80,14 +81,15 @@ class TimesViewController: UITableViewController {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 2), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             })
             
-            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index + (q3Backup.count - 1) + (q2Backup.count - 1), repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(time + lastQ3Time + lastQ2Time + 2, target: self, selector: #selector(runClosure), userInfo: index + q3Backup.count + q2Backup.count, repeats: false)
         }
         
         
         print("\n")
+ 
     }
     
-    func runBlock(timer: NSTimer) {
+    func runClosure(timer: NSTimer) {
         let userInfoIndex = timer.userInfo as! Int
         closureArray[userInfoIndex]()
     }
