@@ -28,6 +28,10 @@ class TimesViewController: UITableViewController {
     var q1Times: [Driver]!
     var q1DoubleTimes: [Double]!
     var q1Differences: [Double]!
+    
+    var closureArray: [() -> Void] = []
+    
+    var currentTime = NSDate.timeIntervalSinceReferenceDate()
 
     @IBAction func run(sender: AnyObject) {
         q3Times = []
@@ -38,23 +42,24 @@ class TimesViewController: UITableViewController {
         let lastQ3Time = q3Differences.reverse()[0]
         let lastQ2Time = q2Differences.reverse()[0]
         
-        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        currentTime = NSDate.timeIntervalSinceReferenceDate()
         
         var timerArray = [NSTimer]()
         
         for (index, time) in q3Differences.enumerate() {
             
-            self.block = {
+            closureArray.append( {
                 self.q3Times.append(self.q3Backup[index])
-                self.tableView.reloadData()
-                let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
+//                self.tableView.reloadData()
+                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+                let difference = NSDate.timeIntervalSinceReferenceDate() - self.currentTime
                 let error = time - difference
-                print(time, "\t", difference, "\t", error)
-            }
+                print(time, "\t", difference, "\t", error, "\t", self.currentTime)
+            })
             
 //            timerArray.append(NSTimer(timeInterval: time, target: self, selector: #selector(runBlock), userInfo: nil, repeats: true))
             
-            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: nil, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runBlock), userInfo: index, repeats: false)
             
 //            RunAfterDelay(time, block: {
 //                self.q3Times.append(self.q3Backup[index])
@@ -64,12 +69,6 @@ class TimesViewController: UITableViewController {
 //                let error = time - difference
 //                print(time, "\t", difference, "\t", error)
 //            })
-        }
-        
-        for timer in timerArray {
-//            timer.fire()
-            
-            print(timer.timeInterval, timer)
         }
         
 //        for (index, time) in q2Differences.enumerate() {
@@ -98,19 +97,15 @@ class TimesViewController: UITableViewController {
 //        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
 //        dispatch_after(time, dispatch_get_main_queue(), block)
 //    }
-
     
-    var block: (() -> Void)!
-    
-//    var currentTime: NSDate?
-    
-    func runBlock() {
-        block()
+    func runBlock(timer: NSTimer) {
+        let userInfoIndex = timer.userInfo as! Int
+        closureArray[userInfoIndex]()
+//        block()
 //        print(NSDate.timeIntervalSinceReferenceDate())
     }
 
     func RunAfterDelay(delay: Double, block: () -> Void) {
-        self.block = block
         let displayLink = CADisplayLink(target: self, selector: #selector(runBlock))
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
     }
