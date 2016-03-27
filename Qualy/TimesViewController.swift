@@ -72,19 +72,24 @@ class TimesViewController: UITableViewController {
         print("\n")
     }
     
-//    func RunAfterDelay(delay: NSTimeInterval, block: dispatch_block_t) {
-//        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-//        dispatch_after(time, dispatch_get_main_queue(), block)
-//    }
-    
-    func RunAfterDelay(delay: Double, block: () -> Void) {
-        func timerFunc() {
-            block()
-        }
-//        let timer = NSTimer(timeInterval: delay, target: self, selector: #selector(timerFunc), userInfo: nil, repeats: false)
-//        timer.fire()
-        UIView.animateWithDuration(delay, animations: block)
+    func RunAfterDelay(delay: NSTimeInterval, block: dispatch_block_t) {
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+        dispatch_after(time, dispatch_get_main_queue(), block)
     }
+    
+//    var block: (() -> Void)!
+//    
+//    func runBlock() {
+//        block()
+//    }
+//    
+//    func RunAfterDelay(delay: Double, block: () -> Void) {
+//        self.block = block
+//        let timer = NSTimer(timeInterval: delay, target: self, selector: #selector(runBlock), userInfo: nil, repeats: true)
+//        print(timer.timeInterval)
+//        timer.fire()
+//        timer.invalidate()
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
