@@ -32,12 +32,9 @@ class TimesViewController: UITableViewController {
     var qualyBackups: [[Driver]]!
     var qualyTimes: [[Driver]]!
     
-    var closureArray: [() -> Void] = []
-    
     var currentTime = NSDate.timeIntervalSinceReferenceDate()
 
     @IBAction func run(sender: AnyObject) {
-        
         q3Times = []
         q2Times = []
         q1Times = []
@@ -48,50 +45,50 @@ class TimesViewController: UITableViewController {
         
         currentTime = NSDate.timeIntervalSinceReferenceDate()
         
+//        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + 1, 0, 0, 0) { (timer) in
+//            print("Hello")
+//        }
+//        
+//        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
+        
         for (index, time) in q3Differences.enumerate() {
-            
-            closureArray.append( {
+            let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + time, 0, 0, 0, { (_) in
                 self.q3Times.append(self.q3Backup[index])
-//                self.tableView.reloadData()
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
+                //                self.tableView.reloadData()
                 let difference = NSDate.timeIntervalSinceReferenceDate() - self.currentTime
                 let error = time - difference
                 print(time, "\t", difference, "\t", error, "\t", self.currentTime)
             })
             
-            NSTimer.scheduledTimerWithTimeInterval(time, target: self, selector: #selector(runClosure), userInfo: index, repeats: false)
+            CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
         }
         
         for (index, time) in q2Differences.enumerate() {
-            closureArray.append({
+            let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + time + lastQ3Time + 1, 0, 0, 0, { (_) in
                 self.q2Times.append(self.q2Backup[index])
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 1)], withRowAnimation: .Right)
-//                self.tableView.reloadData()
+                //                self.tableView.reloadData()
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 1), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             })
             
-            NSTimer.scheduledTimerWithTimeInterval(time + lastQ3Time + 1, target: self, selector: #selector(runClosure), userInfo: index + q3Backup.count, repeats: false)
+            CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
+            
         }
 
         for (index, time) in q1Differences.enumerate() {
-            closureArray.append( {
+            let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + time + lastQ3Time + lastQ2Time + 2, 0, 0, 0, { (_) in
                 self.q1Times.append(self.q1Backup[index])
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 2)], withRowAnimation: .Right)
-//                self.tableView.reloadData()
+                //                self.tableView.reloadData()
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 2), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
             })
             
-            NSTimer.scheduledTimerWithTimeInterval(time + lastQ3Time + lastQ2Time + 2, target: self, selector: #selector(runClosure), userInfo: index + q3Backup.count + q2Backup.count, repeats: false)
+            CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
         }
-        
         
         print("\n")
  
-    }
-    
-    func runClosure(timer: NSTimer) {
-        let userInfoIndex = timer.userInfo as! Int
-        closureArray[userInfoIndex]()
     }
     
     override func viewDidLoad() {
