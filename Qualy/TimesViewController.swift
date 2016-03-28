@@ -31,8 +31,6 @@ class TimesViewController: UITableViewController {
     
     var qualyBackups: [[Driver]]!
     var qualyTimes: [[Driver]]!
-    
-    var currentTime = NSDate.timeIntervalSinceReferenceDate()
 
     @IBAction func run(sender: AnyObject) {
         q3Times = []
@@ -43,7 +41,7 @@ class TimesViewController: UITableViewController {
         let lastQ3Time = q3Differences.reverse()[0]
         let lastQ2Time = q2Differences.reverse()[0]
         
-        currentTime = NSDate.timeIntervalSinceReferenceDate()
+        let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
 //        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + 1, 0, 0, 0) { (timer) in
 //            print("Hello")
@@ -56,9 +54,9 @@ class TimesViewController: UITableViewController {
                 self.q3Times.append(self.q3Backup[index])
                 self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
                 //                self.tableView.reloadData()
-                let difference = NSDate.timeIntervalSinceReferenceDate() - self.currentTime
+                let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
                 let error = time - difference
-                print(time, "\t", difference, "\t", error, "\t", self.currentTime)
+                print(time, "\t", difference, "\t", error, "\t", currentTime)
             })
             
             CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
