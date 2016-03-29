@@ -10,8 +10,6 @@ import UIKit
 
 class TimesViewController: UITableViewController {
     
-    var sectionHeadings = ["Q3", "Q2", "Q1"]
-    
     var grandPrix: GrandPrix!
     
     var q3Backup: [Driver]! // Shouldn't it be possible to make this a let
@@ -31,61 +29,40 @@ class TimesViewController: UITableViewController {
     
     var qualyBackups: [[Driver]]!
     var qualyTimes: [[Driver]]!
+    
+    var differences: [[Double]]!
+    var lastDifferences: [Double]!
 
     @IBAction func run(sender: AnyObject) {
-        q3Times = []
-        q2Times = []
-        q1Times = []
+        for (index, _) in qualyTimes.enumerate() {
+            qualyTimes[index] = []
+        }
+        
         tableView.reloadData()
         
-        let lastQ3Time = q3Differences.reverse()[0]
-        let lastQ2Time = q2Differences.reverse()[0]
+        lastDifferences = []
         
-        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        let timeAtButtonTap = NSDate.timeIntervalSinceReferenceDate()
         
-//        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + 1, 0, 0, 0) { (timer) in
-//            print("Hello")
-//        }
-//        
-//        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
-        
-        for (index, time) in q3Differences.enumerate() {
-            let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + time, 0, 0, 0, { (_) in
-                self.q3Times.append(self.q3Backup[index])
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 0)], withRowAnimation: .Right)
-                //                self.tableView.reloadData()
-                let difference = NSDate.timeIntervalSinceReferenceDate() - currentTime
-                let error = time - difference
-                print(time, "\t", difference, "\t", error, "\t", currentTime)
-            })
+        for (sessionIndex, session) in differences.enumerate() {
             
-            CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
+            for (index, time) in session.enumerate() {
+                let lastDifferenceSum = lastDifferences.reduce(0, combine: +)
+                let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { (_) in
+                    self.qualyTimes[sessionIndex].append(self.qualyBackups[sessionIndex][index])
+                    self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: sessionIndex)], withRowAnimation: .Right)
+                    self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: sessionIndex), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                    
+//                    let difference = NSDate.timeIntervalSinceReferenceDate() - timeAtButtonTap - lastDifferenceSum
+//                    let error = time - difference
+//                    print(time, "\t", difference, "\t", error, "\t", timeAtButtonTap, lastDifferenceSum)
+                })
+                
+                CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
+            }
+            
+            lastDifferences.append(differences[sessionIndex].last! + 1)
         }
-        
-        for (index, time) in q2Differences.enumerate() {
-            let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + time + lastQ3Time + 1, 0, 0, 0, { (_) in
-                self.q2Times.append(self.q2Backup[index])
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 1)], withRowAnimation: .Right)
-                //                self.tableView.reloadData()
-                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 1), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-            })
-            
-            CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
-            
-        }
-
-        for (index, time) in q1Differences.enumerate() {
-            let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, currentTime + time + lastQ3Time + lastQ2Time + 2, 0, 0, 0, { (_) in
-                self.q1Times.append(self.q1Backup[index])
-                self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: 2)], withRowAnimation: .Right)
-                //                self.tableView.reloadData()
-                self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 2), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
-            })
-            
-            CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
-        }
-        
-        print("\n")
  
     }
     
@@ -121,6 +98,11 @@ class TimesViewController: UITableViewController {
         q1DoubleTimes = q1Times.map({$0.timeInSeconds})
         
         q1Differences = q1DoubleTimes.map({($0 - q1DoubleTimes[0]) / 1000})
+        
+        differences = [q3Differences, q2Differences, q1Differences]
+        
+        lastDifferences = [0.0]
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,96 +113,38 @@ class TimesViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionHeadings.count
+        return qualyBackups.count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionHeadings[section]
+        let number = qualyBackups.count - section
+        return "Q\(number)"
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return q3Times.count
-        case 1:
-            return q2Times.count
-        case 2:
-            return q1Times.count
-        default:
-            return 0
-        }
+        return qualyTimes[section].count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! DriverTableViewCell
         
-        let driver: Driver! = { switch indexPath.section {
-        case 0:
-            return q3Times[indexPath.row]
-        case 1:
-            return q2Times[indexPath.row]
-        case 2:
-            return q1Times[indexPath.row]
-        default:
-            return nil
-            }
-        }()
+        let section = indexPath.section
+        let row = indexPath.row
+        
+        let driver = qualyTimes[section][row]
         
         cell.teamColour.backgroundColor = driver.teamColor
-        
         cell.driverName.text = String(driver.name)
         cell.time.text = String(driver.time)
-        
-        cell.distanceToPole.text = { switch indexPath.section {
-        case 0:
-            return "+ \(q3Differences[indexPath.row])"
-        case 1:
-            return "+ \(q2Differences[indexPath.row])"
-        case 2:
-            return "+ \(q1Differences[indexPath.row])"
-        default:
-            return nil
-            }
-            }()
+        cell.distanceToPole.text = "+ \(differences[section][row])"
         
         return cell
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
