@@ -31,8 +31,8 @@ class TimesViewController: UITableViewController {
     var qualyTimes: [[Driver]]!
     
     var differences: [[Double]]!
-    var lastDifferences: [Double]!
 
+    @IBOutlet weak var runButton: UIBarButtonItem!
     @IBAction func run(sender: AnyObject) {
         for (index, _) in qualyTimes.enumerate() {
             qualyTimes[index] = []
@@ -40,7 +40,7 @@ class TimesViewController: UITableViewController {
         
         tableView.reloadData()
         
-        lastDifferences = []
+        var lastDifferences = [0.0]
         
         let timeAtButtonTap = NSDate.timeIntervalSinceReferenceDate()
         
@@ -61,8 +61,17 @@ class TimesViewController: UITableViewController {
                 CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
             }
             
-            lastDifferences.append(differences[sessionIndex].last! + 1)
+            guard let last = differences[sessionIndex].last else { fatalError("\(differences[sessionIndex]) does not have a last value") }
+            lastDifferences.append(last + 1)
         }
+        
+        runButton.enabled = false
+        
+        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { (_) in
+            self.runButton.enabled = true
+        }
+        
+        CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
  
     }
     
@@ -88,20 +97,15 @@ class TimesViewController: UITableViewController {
         qualyTimes = [q3Times, q2Times, q1Times]
         
         q3DoubleTimes = q3Times.map({$0.timeInSeconds})
-        
         q3Differences = q3DoubleTimes.map({($0 - q3DoubleTimes[0]) / 1000})
         
         q2DoubleTimes = q2Times.map({$0.timeInSeconds})
-        
         q2Differences = q2DoubleTimes.map({($0 - q2DoubleTimes[0]) / 1000})
         
         q1DoubleTimes = q1Times.map({$0.timeInSeconds})
-        
         q1Differences = q1DoubleTimes.map({($0 - q1DoubleTimes[0]) / 1000})
         
         differences = [q3Differences, q2Differences, q1Differences]
-        
-        lastDifferences = [0.0]
         
     }
 

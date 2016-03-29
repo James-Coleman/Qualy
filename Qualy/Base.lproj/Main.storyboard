@@ -123,6 +123,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="runButton" destination="nse-hr-kqI" id="a8s-gf-D1B"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="THf-Ka-uxg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
