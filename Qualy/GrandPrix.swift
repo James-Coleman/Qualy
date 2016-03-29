@@ -14,44 +14,38 @@ class GrandPrix: NSObject {
     let year: Int
     let title: String
     
-    let q3: [Driver]
-    let q2: [Driver]
-    let q1: [Driver]
+    let kind: Kind
+    let kindDescriptor: String
     
-    init(location: Country, year: Int, q3: [Driver], q2: [Driver], q1: [Driver]) {
+    let sessions: [[Driver]]
+    
+    init(location: Country, year: Int, kind: Kind, sessions: [[Driver]]) {
         
         self.location = location
         self.year = year
         self.title = "\(location) \(year)"
         
-        self.q3 = q3
-        self.q2 = q2
-        self.q1 = q1
+        self.kind = kind
+        self.kindDescriptor = {
+            switch kind {
+            case .FastestLap:
+                return "Fastest Lap"
+            default:
+                return String(kind)
+            }
+        }()
+        
+        self.sessions = sessions
  
     }
     
     enum Country {
-        case AUS
-        case BHR
-        case CHN
-        case RUS
-        case ESP
-        case MON
-        case CAN
-        case EUR
-        case AUT
-        case GBR
-        case HUN
-        case GER
-        case BEL
-        case ITA
-        case SIN
-        case MAL
-        case JPN
-        case USA
-        case MEX
-        case BRA
-        case ABU
+        case ABU, AUS, AUT, BEL, BHR, BRA, CAN, CHN, ESP, EUR, GBR, GER, HUN, ITA, JPN, MAL, MEX, MON, RUS, SIN, USA
+    }
+    
+    enum Kind {
+        case Qualifying
+        case FastestLap
     }
     
 }

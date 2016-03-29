@@ -12,23 +12,10 @@ class TimesViewController: UITableViewController {
     
     var grandPrix: GrandPrix!
     
-    var q3Backup: [Driver]! // Shouldn't it be possible to make this a let
-    var q3Times: [Driver]!
-    var q3DoubleTimes: [Double]!
-    var q3Differences: [Double]!
-    
-    var q2Backup: [Driver]!
-    var q2Times: [Driver]!
-    var q2DoubleTimes: [Double]!
-    var q2Differences: [Double]!
-    
-    var q1Backup: [Driver]!
-    var q1Times: [Driver]!
-    var q1DoubleTimes: [Double]!
-    var q1Differences: [Double]!
-    
     var qualyBackups: [[Driver]]!
     var qualyTimes: [[Driver]]!
+    
+    var doubleTimes: [[Double]]!
     
     var differences: [[Double]]!
 
@@ -82,28 +69,16 @@ class TimesViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        q3Backup = grandPrix.q3
-        q3Times = grandPrix.q3
+        title = "\(grandPrix.title) \(grandPrix.kindDescriptor)"
         
-        q2Backup = grandPrix.q2
-        q2Times = grandPrix.q2
+        qualyBackups = grandPrix.sessions
+        qualyTimes = grandPrix.sessions
         
-        q1Backup = grandPrix.q1
-        q1Times = grandPrix.q1
+        doubleTimes = qualyBackups.map({$0.map({$0.timeInSeconds})})
         
-        qualyBackups = [q3Backup, q2Backup, q1Backup]
-        qualyTimes = [q3Times, q2Times, q1Times]
-        
-        q3DoubleTimes = q3Times.map({$0.timeInSeconds})
-        q3Differences = q3DoubleTimes.map({($0 - q3DoubleTimes[0]) / 1000})
-        
-        q2DoubleTimes = q2Times.map({$0.timeInSeconds})
-        q2Differences = q2DoubleTimes.map({($0 - q2DoubleTimes[0]) / 1000})
-        
-        q1DoubleTimes = q1Times.map({$0.timeInSeconds})
-        q1Differences = q1DoubleTimes.map({($0 - q1DoubleTimes[0]) / 1000})
-        
-        differences = [q3Differences, q2Differences, q1Differences]
+        differences = doubleTimes.map({ (times) -> [Double] in
+            return times.map({($0 - times[0]) / 1000})
+        })
         
     }
 
@@ -118,9 +93,14 @@ class TimesViewController: UITableViewController {
         return qualyBackups.count
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let number = qualyBackups.count - section
-        return "Q\(number)"
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {        
+        switch grandPrix.kind {
+        case .Qualifying:
+            let number = qualyBackups.count - section
+            return "Q\(number)"
+        default:
+            return nil
+        }
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

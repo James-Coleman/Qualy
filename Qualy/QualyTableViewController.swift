@@ -10,13 +10,12 @@ import UIKit
 
 class QualyTableViewController: UITableViewController {
     
-//    let grandsPrix = ["AUS 2016", "UAE 2015", "BRA 2015", "MEX 2015", "USA 2015", "RUS 2015", "JAP 2015", "SIN 2015", "ITA 2015", "BEL 2015", "HUN 2015", "GBR 2015", "AUS 2015", "CAN 2015", "MON 2015", "SPN 2015", "BAH 2015", "CHN 2015", "MAL 2015", "AUS 2015"]
-    
     let grandsPrix = [
         GrandPrix(
             location: GrandPrix.Country.AUS,
             year: 2016,
-            q3: [
+            kind: GrandPrix.Kind.Qualifying,
+            sessions: [[
                 Driver(name: Driver.Name.HAM, team: Driver.Team.Mercedes,   time: "1.23.837"),
                 Driver(name: Driver.Name.ROS, team: Driver.Team.Mercedes,   time: "1:24.197"),
                 Driver(name: Driver.Name.VET, team: Driver.Team.Ferrari,    time: "1:24.675"),
@@ -26,7 +25,7 @@ class QualyTableViewController: UITableViewController {
                 Driver(name: Driver.Name.SAI, team: Driver.Team.ToroRosso,  time: "1:25.582"),
                 Driver(name: Driver.Name.RIC, team: Driver.Team.RedBull,    time: "1:25.589")
             ],
-            q2: [
+            [
                 Driver(name: Driver.Name.PER, team: Driver.Team.ForceIndia, time: "1:25.753"),
                 Driver(name: Driver.Name.HUL, team: Driver.Team.ForceIndia, time: "1:25.865"),
                 Driver(name: Driver.Name.BOT, team: Driver.Team.Williams,   time: "1:25.961"),
@@ -35,7 +34,7 @@ class QualyTableViewController: UITableViewController {
                 Driver(name: Driver.Name.PAL, team: Driver.Team.Renault,    time: "1.27:601"),
                 Driver(name: Driver.Name.MAG, team: Driver.Team.Renault,    time: "1:27.742")
             ],
-            q1: [
+            [
                 Driver(name: Driver.Name.ERI, team: Driver.Team.Sauber,     time: "1:27.435"),
                 Driver(name: Driver.Name.NAS, team: Driver.Team.Sauber,     time: "1:27.958"),
                 Driver(name: Driver.Name.KVY, team: Driver.Team.RedBull,    time: "1:28.006"),
@@ -43,7 +42,31 @@ class QualyTableViewController: UITableViewController {
                 Driver(name: Driver.Name.GUT, team: Driver.Team.Haas,       time: "1:29.606"),
                 Driver(name: Driver.Name.HAR, team: Driver.Team.Manor,      time: "1:29.627"),
                 Driver(name: Driver.Name.WEH, team: Driver.Team.Manor,      time: "1:29.642")
-            ])
+            ]]),
+        
+        GrandPrix(location: .AUS, year: 2016, kind: .FastestLap, sessions: [[
+            Driver(name: .RIC, team: .RedBull,      time: "1:28.997"),
+            Driver(name: .VET, team: .Ferrari,      time: "1:29.951"),
+            Driver(name: .ROS, team: .Mercedes,     time: "1:30.557"),
+            Driver(name: .HAM, team: .Mercedes,     time: "1:30.646"),
+            Driver(name: .RAI, team: .Ferrari,      time: "1:30.701"),
+            Driver(name: .VES, team: .ToroRosso,    time: "1:31.516"),
+            Driver(name: .SAI, team: .ToroRosso,    time: "1:31.671"),
+            Driver(name: .BUT, team: .McLaren,      time: "1:31.684"),
+            Driver(name: .MAS, team: .Williams,     time: "1:32.288"),
+            Driver(name: .MAG, team: .Renault,      time: "1:32.452"),
+            Driver(name: .ALO, team: .McLaren,      time: "1:32.553"),
+            Driver(name: .WEH, team: .Manor,        time: "1:32.673"),
+            Driver(name: .NAS, team: .Sauber,       time: "1:32.711"),
+            Driver(name: .BOT, team: .Williams,     time: "1:32.725"),
+            Driver(name: .PER, team: .ForceIndia,   time: "1:32.780"),
+            Driver(name: .HUL, team: .ForceIndia,   time: "1:32.833"),
+            Driver(name: .GRO, team: .Haas,         time: "1:32.862"),
+            Driver(name: .PAL, team: .Renault,      time: "1:32.955"),
+            Driver(name: .GUT, team: .Haas,         time: "1:32.998"),
+            Driver(name: .HAR, team: .Manor,        time: "1:33.847"),
+            Driver(name: .ERI, team: .Sauber,       time: "1:33.892")
+            ]])
     ]
 
     override func viewDidLoad() {
@@ -78,6 +101,8 @@ class QualyTableViewController: UITableViewController {
         let grandPrix = grandsPrix[indexPath.row]
         
         cell.textLabel?.text = grandPrix.title
+        
+        cell.detailTextLabel?.text = grandPrix.kindDescriptor
 
         return cell
     }
@@ -128,12 +153,7 @@ class QualyTableViewController: UITableViewController {
         
         let grandPrix = grandsPrix[(tableView.indexPathForSelectedRow?.item)!]
         
-        destination.title = grandPrix.title
-        
         destination.grandPrix = grandPrix
-        
-        
-        
     }
 
 }
