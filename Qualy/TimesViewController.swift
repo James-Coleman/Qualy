@@ -34,9 +34,7 @@ class TimesViewController: UITableViewController {
 
     @IBOutlet weak var runButton: UIBarButtonItem!
     @IBAction func run(sender: AnyObject) {
-        for (index, _) in qualyTimes.enumerate() {
-            qualyTimes[index] = []
-        }
+        qualyTimes = qualyTimes.map({_ in []})
         
         tableView.reloadData()
         
@@ -61,8 +59,8 @@ class TimesViewController: UITableViewController {
                 CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopCommonModes)
             }
             
-            guard let last = differences[sessionIndex].last else { fatalError("\(differences[sessionIndex]) does not have a last value") }
-            lastDifferences.append(last + 1)
+            guard let lastDifference = differences[sessionIndex].last else { fatalError("\(differences[sessionIndex]) does not have a last value") }
+            lastDifferences.append(lastDifference + 1)
         }
         
         runButton.enabled = false
