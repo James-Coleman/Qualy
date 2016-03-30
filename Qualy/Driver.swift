@@ -11,7 +11,7 @@ import UIKit
 class Driver: NSObject{
     let name: Name
     let team: Team
-    let teamColor: UIColor
+    let teamColour: UIColor
     let time: String
     let timeInSeconds: Double
     
@@ -21,21 +21,9 @@ class Driver: NSObject{
     
     enum Team {
         case Ferrari, ForceIndia, Haas, Manor, McLaren, Mercedes, RedBull, Renault, Sauber, ToroRosso, Williams
-    }
-    
-    enum TimeError: ErrorType {
-        case ArrayWrongSize
-        case CantConvertMinuteToInt
-        case CantConvertSecondsMillisToInt
-        case CantConvertMinuteToDouble
-        case CantConvertSecondsMillisToDouble
-    }
-    
-    init(name: Name, team: Team, time: String) {
-        self.name = name
-        self.team = team
-        self.teamColor = {
-            switch team {
+        
+        func teamColour() -> UIColor {
+            switch self {
             case .Ferrari:
                 return UIColor(red: 0xC3 / 255, green: 0, blue: 0, alpha: 1)
             case .ForceIndia:
@@ -59,7 +47,21 @@ class Driver: NSObject{
             case .Williams:
                 return UIColor.whiteColor()
             }
-            }()
+        }
+    }
+    
+    enum TimeError: ErrorType {
+        case ArrayWrongSize
+        case CantConvertMinuteToInt
+        case CantConvertSecondsMillisToInt
+        case CantConvertMinuteToDouble
+        case CantConvertSecondsMillisToDouble
+    }
+    
+    init(name: Name, team: Team, time: String) {
+        self.name = name
+        self.team = team
+        self.teamColour = team.teamColour()
         self.time = time
         self.timeInSeconds = {
             do {

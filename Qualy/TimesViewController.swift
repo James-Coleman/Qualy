@@ -33,7 +33,7 @@ class TimesViewController: UITableViewController {
             
             for (index, time) in session.enumerate() {
                 let lastDifferenceSum = lastDifferences.reduce(0, combine: +)
-                let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { (_) in
+                let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { [unowned self] (_) in
                     self.qualyTimes[sessionIndex].append(self.qualyBackups[sessionIndex][index])
                     self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: sessionIndex)], withRowAnimation: .Right)
                     self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: sessionIndex), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
@@ -52,7 +52,7 @@ class TimesViewController: UITableViewController {
         
         runButton.enabled = false
         
-        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { (_) in
+        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { [unowned self] (_) in
             self.runButton.enabled = true
         }
         
@@ -116,7 +116,7 @@ class TimesViewController: UITableViewController {
         
         let driver = qualyTimes[section][row]
         
-        cell.teamColour.backgroundColor = driver.teamColor
+        cell.teamColour.backgroundColor = driver.teamColour
         cell.driverName.text = String(driver.name)
         cell.time.text = String(driver.time)
         cell.distanceToPole.text = "+ \(differences[section][row])"
