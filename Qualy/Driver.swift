@@ -11,16 +11,9 @@ import UIKit
 class Driver: NSObject{
     let name: Name
     let team: Team
-<<<<<<< HEAD
     let teamColour: UIColor
-    let minutes: Int
-    let seconds: Double
-    let totalTime: Double
-=======
-    let teamColor: UIColor
     let time: String
-    let timeInSeconds: Double
->>>>>>> parent of 364cd75... Added [ unowned self ] to closures.
+    let doubleTime: Double
     
     enum Name {
         case ALO, BOT, BUT, ERI, GRO, GUT, HAM, HAR, HUL, KVY, MAG, MAS, NAS, PAL, PER, RAI, RIC, ROS, SAI, VES, VET, WEH
@@ -28,21 +21,8 @@ class Driver: NSObject{
     
     enum Team {
         case Ferrari, ForceIndia, Haas, Manor, McLaren, Mercedes, RedBull, Renault, Sauber, ToroRosso, Williams
-    }
-    
-    enum TimeError: ErrorType {
-        case ArrayWrongSize
-        case CantConvertMinuteToInt
-        case CantConvertSecondsMillisToInt
-        case CantConvertMinuteToDouble
-        case CantConvertSecondsMillisToDouble
-    }
-    
-    init(name: Name, team: Team, time: String) {
-        self.name = name
-        self.team = team
-        self.teamColor = {
-            switch team {
+        func teamColour() -> UIColor {
+            switch self {
             case .Ferrari:
                 return UIColor(red: 0xC3 / 255, green: 0, blue: 0, alpha: 1)
             case .ForceIndia:
@@ -66,21 +46,24 @@ class Driver: NSObject{
             case .Williams:
                 return UIColor.whiteColor()
             }
-<<<<<<< HEAD
         }
     }
+
+
+    enum TimeError: ErrorType {
+        case ArrayWrongSize
+        case CantConvertMinuteToInt
+        case CantConvertSecondsMillisToInt
+        case CantConvertMinuteToDouble
+        case CantConvertSecondsMillisToDouble
+    }
     
-    init(name: Name, team: Team, minutes: Int, seconds: Double) {
+    init(name: Name, team: Team, time: String) {
         self.name = name
         self.team = team
         self.teamColour = team.teamColour()
-        self.minutes = minutes
-        self.seconds = seconds
-        self.totalTime = Double(minutes * 60) + seconds
-=======
-            }()
         self.time = time
-        self.timeInSeconds = {
+        self.doubleTime = {
             do {
                 let timeComponents = time.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
                 
@@ -101,7 +84,6 @@ class Driver: NSObject{
                 fatalError(String(error))
             }
             }()
->>>>>>> parent of 364cd75... Added [ unowned self ] to closures.
     }
 
 }
