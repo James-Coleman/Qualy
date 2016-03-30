@@ -32,8 +32,13 @@ class TimesViewController: UITableViewController {
             
             for (index, time) in session.enumerate() {
                 let lastDifferenceSum = lastDifferences.reduce(0, combine: +)
+<<<<<<< HEAD
                 let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { [unowned self] (_) in
                     self.qualyTimes[sessionIndex].append(self.grandPrix.sessions[sessionIndex][index])
+=======
+                let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { (_) in
+                    self.qualyTimes[sessionIndex].append(self.qualyBackups[sessionIndex][index])
+>>>>>>> parent of 364cd75... Added [ unowned self ] to closures.
                     self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: sessionIndex)], withRowAnimation: .Right)
                     self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: sessionIndex), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                     
@@ -51,7 +56,7 @@ class TimesViewController: UITableViewController {
         
         runButton.enabled = false
         
-        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { [unowned self] (_) in
+        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { (_) in
             self.runButton.enabled = true
         }
         
@@ -116,7 +121,7 @@ class TimesViewController: UITableViewController {
         
         let driver = qualyTimes[section][row]
         
-        cell.teamColour.backgroundColor = driver.teamColour
+        cell.teamColour.backgroundColor = driver.teamColor
         cell.driverName.text = String(driver.name)
         cell.time.text = "\(driver.minutes):\(driver.seconds)"
         cell.distanceToPole.text = "+ \(differences[section][row])"

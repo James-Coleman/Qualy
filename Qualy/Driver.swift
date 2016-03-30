@@ -11,10 +11,16 @@ import UIKit
 class Driver: NSObject{
     let name: Name
     let team: Team
+<<<<<<< HEAD
     let teamColour: UIColor
     let minutes: Int
     let seconds: Double
     let totalTime: Double
+=======
+    let teamColor: UIColor
+    let time: String
+    let timeInSeconds: Double
+>>>>>>> parent of 364cd75... Added [ unowned self ] to closures.
     
     enum Name {
         case ALO, BOT, BUT, ERI, GRO, GUT, HAM, HAR, HUL, KVY, MAG, MAS, NAS, PAL, PER, RAI, RIC, ROS, SAI, VES, VET, WEH
@@ -22,9 +28,21 @@ class Driver: NSObject{
     
     enum Team {
         case Ferrari, ForceIndia, Haas, Manor, McLaren, Mercedes, RedBull, Renault, Sauber, ToroRosso, Williams
-        
-        func teamColour() -> UIColor {
-            switch self {
+    }
+    
+    enum TimeError: ErrorType {
+        case ArrayWrongSize
+        case CantConvertMinuteToInt
+        case CantConvertSecondsMillisToInt
+        case CantConvertMinuteToDouble
+        case CantConvertSecondsMillisToDouble
+    }
+    
+    init(name: Name, team: Team, time: String) {
+        self.name = name
+        self.team = team
+        self.teamColor = {
+            switch team {
             case .Ferrari:
                 return UIColor(red: 0xC3 / 255, green: 0, blue: 0, alpha: 1)
             case .ForceIndia:
@@ -48,6 +66,7 @@ class Driver: NSObject{
             case .Williams:
                 return UIColor.whiteColor()
             }
+<<<<<<< HEAD
         }
     }
     
@@ -58,6 +77,31 @@ class Driver: NSObject{
         self.minutes = minutes
         self.seconds = seconds
         self.totalTime = Double(minutes * 60) + seconds
+=======
+            }()
+        self.time = time
+        self.timeInSeconds = {
+            do {
+                let timeComponents = time.componentsSeparatedByCharactersInSet(NSCharacterSet(charactersInString: ":."))
+                
+                guard timeComponents.count == 3 else { throw TimeError.ArrayWrongSize }
+                
+                guard let minute = Double(timeComponents[0]) else { throw TimeError.CantConvertMinuteToDouble }
+                
+                let minutesAsMillis = minute * 60_000.0
+                
+                let secondsMilliString = timeComponents[1] + timeComponents[2]
+                
+                guard let secondsMilliInt = Double(secondsMilliString) else { throw TimeError.CantConvertSecondsMillisToDouble }
+                
+                let total = minutesAsMillis + secondsMilliInt
+                
+                return total
+            } catch let error {
+                fatalError(String(error))
+            }
+            }()
+>>>>>>> parent of 364cd75... Added [ unowned self ] to closures.
     }
 
 }
