@@ -12,10 +12,9 @@ class TimesViewController: UITableViewController {
     
     var grandPrix: GrandPrix!
     
-    var qualyBackups: [[Driver]]!
     var qualyTimes: [[Driver]]!
     
-    var doubleTimes: [[Double]]!
+    var totalTimes: [[Double]]!
     
     var differences: [[Double]]!
 
@@ -34,7 +33,7 @@ class TimesViewController: UITableViewController {
             for (index, time) in session.enumerate() {
                 let lastDifferenceSum = lastDifferences.reduce(0, combine: +)
                 let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { [unowned self] (_) in
-                    self.qualyTimes[sessionIndex].append(self.qualyBackups[sessionIndex][index])
+                    self.qualyTimes[sessionIndex].append(self.grandPrix.sessions[sessionIndex][index])
                     self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: sessionIndex)], withRowAnimation: .Right)
                     self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: sessionIndex), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
                     
@@ -71,14 +70,15 @@ class TimesViewController: UITableViewController {
         
         title = "\(grandPrix.title) \(grandPrix.kindDescriptor)"
         
-        qualyBackups = grandPrix.sessions
         qualyTimes = grandPrix.sessions
         
-        doubleTimes = qualyBackups.map({$0.map({$0.timeInSeconds})})
+        totalTimes = grandPrix.sessions.map({$0.map({$0.totalTime})})
         
-        differences = doubleTimes.map({ (times) -> [Double] in
-            return times.map({($0 - times[0]) / 1000})
+        differences = totalTimes.map({ (times) -> [Double] in
+            return times.map({$0 - times[0]})
         })
+        
+        
         
     }
 
@@ -90,13 +90,13 @@ class TimesViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return qualyBackups.count
+        return grandPrix.sessions.count
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {        
         switch grandPrix.kind {
         case .Qualifying:
-            let number = qualyBackups.count - section
+            let number = grandPrix.sessions.count - section
             return "Q\(number)"
         default:
             return nil
@@ -118,7 +118,7 @@ class TimesViewController: UITableViewController {
         
         cell.teamColour.backgroundColor = driver.teamColour
         cell.driverName.text = String(driver.name)
-        cell.time.text = String(driver.time)
+        cell.time.text = "\(driver.minutes):\(driver.seconds)"
         cell.distanceToPole.text = "+ \(differences[section][row])"
         
         return cell
