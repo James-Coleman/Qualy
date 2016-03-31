@@ -35,7 +35,7 @@ class TimesViewController: UITableViewController {
                 let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferenceSum + time, 0, 0, 0, { [unowned self] (_) in
                     self.qualyTimes[sessionIndex].append(self.grandPrix.sessions[sessionIndex][index])
                     self.tableView.insertRowsAtIndexPaths([NSIndexPath(forRow: index, inSection: sessionIndex)], withRowAnimation: .Right)
-                    self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: sessionIndex), atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+                    self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: sessionIndex), atScrollPosition: UITableViewScrollPosition.Bottom, animated: true)
                     
 //                    let difference = NSDate.timeIntervalSinceReferenceDate() - timeAtButtonTap - lastDifferenceSum
 //                    let error = time - difference
@@ -51,7 +51,7 @@ class TimesViewController: UITableViewController {
         
         runButton.enabled = false
         
-        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { (_) in
+        let timer = CFRunLoopTimerCreateWithHandler(kCFAllocatorDefault, timeAtButtonTap + lastDifferences.reduce(0, combine: +), 0, 0, 0) { [unowned self] (_) in
             self.runButton.enabled = true
         }
         
@@ -75,7 +75,7 @@ class TimesViewController: UITableViewController {
         doubleTimes = grandPrix.sessions.map({$0.map({$0.doubleTime})})
         
         differences = doubleTimes.map({ (times) -> [Double] in
-            return times.map({$0 - times[0]})
+            return times.map({($0 - times[0]) / 1000 })
         })
         
         

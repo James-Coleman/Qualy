@@ -16,7 +16,7 @@ class QualyTableViewController: UITableViewController {
             year: 2016,
             kind: GrandPrix.Kind.Qualifying,
             sessions: [[
-                Driver(name: Driver.Name.HAM, team: Driver.Team.Mercedes,   time: "1.23.837"),
+                Driver(name: Driver.Name.HAM, team: Driver.Team.Mercedes,   time: "1:23.837"),
                 Driver(name: Driver.Name.ROS, team: Driver.Team.Mercedes,   time: "1:24.197"),
                 Driver(name: Driver.Name.VET, team: Driver.Team.Ferrari,    time: "1:24.675"),
                 Driver(name: Driver.Name.RAI, team: Driver.Team.Ferrari,    time: "1:25.033"),
@@ -31,7 +31,7 @@ class QualyTableViewController: UITableViewController {
                 Driver(name: Driver.Name.BOT, team: Driver.Team.Williams,   time: "1:25.961"),
                 Driver(name: Driver.Name.ALO, team: Driver.Team.McLaren,    time: "1:26.125"),
                 Driver(name: Driver.Name.BUT, team: Driver.Team.McLaren,    time: "1:26.304"),
-                Driver(name: Driver.Name.PAL, team: Driver.Team.Renault,    time: "1.27:601"),
+                Driver(name: Driver.Name.PAL, team: Driver.Team.Renault,    time: "1:27.601"),
                 Driver(name: Driver.Name.MAG, team: Driver.Team.Renault,    time: "1:27.742")
             ],
             [
