@@ -16,7 +16,7 @@ class Driver: NSObject{
     let doubleTime: Double
     
     enum Name {
-        case ALO, BOT, BUT, ERI, GRO, GUT, HAM, HAR, HUL, KVY, MAG, MAS, NAS, PAL, PER, RAI, RIC, ROS, SAI, VES, VET, WEH
+        case ALO, BOT, BUT, ERI, GRO, GUT, HAM, HAR, HUL, KVY, MAG, MAS, NAS, PAL, PER, RAI, RIC, ROS, SAI, VAN, VES, VET, WEH
     }
     
     enum Team {

@@ -11,6 +11,35 @@ import UIKit
 class QualyTableViewController: UITableViewController {
     
     let grandsPrix = [
+        GrandPrix(location: .BHR, year: 2016, kind: .Qualifying, sessions: [[
+            Driver(name: .HAM, team: .Mercedes,     time: "1:29.493"),
+            Driver(name: .ROS, team: .Mercedes,     time: "1:29.570"),
+            Driver(name: .VET, team: .Ferrari,      time: "1:30.012"),
+            Driver(name: .RAI, team: .Ferrari,      time: "1:30.244"),
+            Driver(name: .RIC, team: .RedBull,      time: "1:30.854"),
+            Driver(name: .BOT, team: .Williams,     time: "1:31.153"),
+            Driver(name: .MAS, team: .Williams,     time: "1:31.155"),
+            Driver(name: .HUL, team: .ForceIndia,   time: "1:31.620")
+            ],
+            [
+                Driver(name: .GRO, team: .Haas,         time: "1:31.756"),
+                Driver(name: .VES, team: .ToroRosso,    time: "1:31.772"),
+                Driver(name: .SAI, team: .ToroRosso,    time: "1:31.816"),
+                Driver(name: .VAN, team: .McLaren,      time: "1:31.934"),
+                Driver(name: .GUT, team: .Haas,         time: "1:31.945"),
+                Driver(name: .BUT, team: .McLaren,      time: "1:31.998"),
+                Driver(name: .KVY, team: .RedBull,      time: "1:32.241")
+            ],
+            [
+                Driver(name: .WEH, team: .Manor,        time: "1:32.806"),
+                Driver(name: .ERI, team: .Sauber,       time: "1:32.840"),
+                Driver(name: .PER, team: .ForceIndia,   time: "1:32.911"),
+                Driver(name: .MAG, team: .Renault,      time: "1:33.181"),
+                Driver(name: .PAL, team: .Renault,      time: "1:33.438"),
+                Driver(name: .HAR, team: .Manor,        time: "1:34.190"),
+                Driver(name: .NAS, team: .Sauber,       time: "1:34.388")
+            ]]),
+        
         GrandPrix(
             location: GrandPrix.Country.AUS,
             year: 2016,

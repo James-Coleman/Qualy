@@ -119,13 +119,22 @@ class TimesViewController: UITableViewController {
         cell.teamColour.backgroundColor = driver.teamColour
         cell.driverName.text = String(driver.name)
         cell.time.text = driver.time
-        cell.distanceToPole.text = "+ \(differences[section][row])"
+//        cell.distanceToPole.text = "+ \(differences[section][row])"
+        
+        let numberFormatter = NSNumberFormatter()
+        numberFormatter.numberStyle = .DecimalStyle
+        numberFormatter.minimumFractionDigits = 3
+        let formattedNumber = numberFormatter.stringFromNumber(differences[section][row])
+        
+        if let formattedNumber = formattedNumber {
+            cell.distanceToPole.text = "+ \(formattedNumber)"
+        }
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
     /*

@@ -25,9 +25,9 @@ class DriverTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
         
-        
         self.time.font = UIFont.monospacedDigitSystemFontOfSize(17.0, weight: UIFontWeightRegular)
         self.distanceToPole.font = UIFont.monospacedDigitSystemFontOfSize(17.0, weight: UIFontWeightRegular)
+        
+        self.selectionStyle = UITableViewCellSelectionStyle.None
     }
-
 }
